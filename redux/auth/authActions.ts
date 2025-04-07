@@ -8,7 +8,8 @@ export const authApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      transformResponse: (res: any) => res.data,
+      transformResponse: (res: any) => res,
+      transformErrorResponse: (res: any) => res.data,
     }),
     signup: builder.mutation({
       query: (body) => ({

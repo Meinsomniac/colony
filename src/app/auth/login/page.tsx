@@ -7,6 +7,7 @@ import * as yup from "yup";
 import FKButton from "../../../../common/form/FKButton";
 import { useRouter } from "next/navigation";
 import { useLoginMutation } from "../../../../redux/auth/authActions";
+import { enqueueSnackbar } from "notistack";
 
 const LoginSchema = yup.object().shape({
   username: yup.string().required("Username/email is required"),
@@ -17,6 +18,7 @@ const LoginSchema = yup.object().shape({
 });
 
 export default function Login() {
+  //hooks
   const router = useRouter();
   const [login] = useLoginMutation();
   const methods = useFormik({
@@ -26,10 +28,23 @@ export default function Login() {
     },
     onSubmit: async (values) => {
       const res = await login(values);
-      console.log({ res });
+      const { success, message, data } = res?.data || res?.error;
+      if (data?.accesstoken) {
+      }
+      enqueueSnackbar({
+        variant: success ? "success" : "error",
+        message,
+        autoHideDuration: 2000,
+        anchorOrigin: {
+          horizontal: "right",
+          vertical: "top",
+        },
+      });
     },
     validationSchema: LoginSchema,
   });
+
+  //render
   return (
     <div className="flex flex-col gap-y-4 bg-white px-4 mx-4 py-8 shadow-md rounded-md w-lg min-w-xs">
       <h2 className="text-3xl font-semibold text-center">Login</h2>
