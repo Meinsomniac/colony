@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import UnAuthWrapper from "../(wrappers)/UnAuthWrapper";
 
 export default function AuthLayout({
   children,
@@ -7,7 +10,7 @@ export default function AuthLayout({
 }) {
   return (
     <div className="h-screen w-full bg-radial from-zinc-100 from to-zinc-200 to-90% flex justify-center items-center">
-      {children}
+      <UnAuthWrapper>{children}</UnAuthWrapper>
     </div>
   );
 }

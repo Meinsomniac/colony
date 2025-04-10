@@ -8,6 +8,8 @@ import FKButton from "../../../../common/form/FKButton";
 import { useRouter } from "next/navigation";
 import { useLoginMutation } from "../../../../redux/auth/authActions";
 import { enqueueSnackbar } from "notistack";
+import { setCookie } from "../../../../utils/cookie";
+import { useAuth } from "../../../../contexts/AuthContext";
 
 const LoginSchema = yup.object().shape({
   username: yup.string().required("Username/email is required"),
@@ -19,6 +21,7 @@ const LoginSchema = yup.object().shape({
 
 export default function Login() {
   //hooks
+  const { setIsAuthenticated } = useAuth();
   const router = useRouter();
   const [login] = useLoginMutation();
   const methods = useFormik({
@@ -28,8 +31,12 @@ export default function Login() {
     },
     onSubmit: async (values) => {
       const res = await login(values);
-      const { success, message, data } = res?.data || res?.error;
-      if (data?.accesstoken) {
+      const { success, message, accessToken, refreshToken } =
+        res?.data || res?.error;
+      if (accessToken) {
+        setCookie("accessToken", accessToken);
+        setCookie("refreshToken", refreshToken);
+        setIsAuthenticated(true);
       }
       enqueueSnackbar({
         variant: success ? "success" : "error",
@@ -58,7 +65,7 @@ export default function Login() {
               name="password"
               type="password"
             />
-            <FKButton>Login</FKButton>
+            <FKButton type="submit">Login</FKButton>
           </div>
         </Form>
       </FormikProvider>

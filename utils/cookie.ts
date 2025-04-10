@@ -1,5 +1,5 @@
 // Function to set a cookie
-function setCookie(name: string, value: string, time: number): void {
+export function setCookie(name: string, value: string, time: number = 1): void {
   const d = new Date();
   d.setTime(d.getTime() + time * 60 * 60 * 1000); // expiration time in ms
   const expires = "expires=" + d.toUTCString();
@@ -7,7 +7,7 @@ function setCookie(name: string, value: string, time: number): void {
 }
 
 // Function to get a cookie by name
-function getCookie(name: string): string {
+export function getCookie(name: string): string {
   const nameEq = name + "=";
   const cookies = document.cookie.split(";");
   for (let i = 0; i < cookies.length; i++) {
@@ -20,6 +20,6 @@ function getCookie(name: string): string {
 }
 
 // Function to delete a cookie
-function deleteCookie(name: string): void {
+export function deleteCookie(name: string): void {
   setCookie(name, "", -1); // Setting a past expiration date effectively deletes the cookie
 }
