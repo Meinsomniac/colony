@@ -6,6 +6,7 @@ type InitialStateProps = {
 
 const initialState = {
   isAuthenticated: false,
+  userInfo: {},
 };
 
 export const authSlice = createSlice({
@@ -16,7 +17,10 @@ export const authSlice = createSlice({
     updateIsAuthenticated: (state, { payload }) => {
       state.isAuthenticated = payload;
     },
+    updateUserInfo: (state, { payload }) => {
+      state.userInfo = payload;
+    },
   },
 });
 
-export const { updateIsAuthenticated } = authSlice.actions;
+export const { updateIsAuthenticated, updateUserInfo } = authSlice.actions;

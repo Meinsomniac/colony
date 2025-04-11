@@ -61,7 +61,6 @@ export default function SignUp() {
     onSubmit: async (values: SignUpFormTypes) => {
       const data = JSON.parse(JSON.stringify(values));
       delete data.confirmPassword;
-      console.log(data);
       const res = await signup(data);
     },
     validationSchema: SignUpSchema,

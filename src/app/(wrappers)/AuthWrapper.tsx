@@ -10,7 +10,6 @@ export default function AuthWrapper({
   children: React.ReactNode;
 }) {
   const { isAuthenticated } = useAuth();
-  console.log("here", isAuthenticated);
   if (!isAuthenticated) redirect("/auth/login");
   else return children;
 }

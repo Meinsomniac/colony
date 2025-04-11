@@ -3,7 +3,7 @@ import api from "../apiInterceptor";
 export const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
-      query: (body) => ({
+      query: (body?: object) => ({
         url: "http://localhost:8080/auth/login",
         method: "POST",
         body,
@@ -19,7 +19,15 @@ export const authApi = api.injectEndpoints({
       }),
       transformResponse: (res: any) => res.data,
     }),
+    getUserInfo: builder.query({
+      query: () => ({
+        url: "http://localhost:8080/auth/get-user",
+        method: "GET",
+      }),
+      transformResponse: (res: any) => res,
+    }),
   }),
 });
 
-export const { useLoginMutation, useSignupMutation } = authApi;
+export const { useLoginMutation, useSignupMutation, useLazyGetUserInfoQuery } =
+  authApi;
