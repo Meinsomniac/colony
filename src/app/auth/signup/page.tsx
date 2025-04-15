@@ -9,6 +9,7 @@ import HFlex from "../../../../common/ui/HFlex";
 import { useRouter } from "next/navigation";
 import { useSignupMutation } from "../../../../redux/auth/authActions";
 import { SignUpFormTypes } from "../../../../utils/types/authTypes";
+import { enqueueSnackbar } from "notistack";
 
 const SignUpSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -55,13 +56,24 @@ const initialValues = {
 export default function SignUp() {
   //hooks
   const router = useRouter();
-  const [signup, { isLoading }] = useSignupMutation();
+  const [signup] = useSignupMutation();
   const methods = useFormik({
     initialValues,
     onSubmit: async (values: SignUpFormTypes) => {
       const data = JSON.parse(JSON.stringify(values));
       delete data.confirmPassword;
       const res = await signup(data);
+      const { success, message } = res?.data || res?.error;
+      enqueueSnackbar({
+        variant: success ? "success" : "error",
+        message,
+        autoHideDuration: 2000,
+        anchorOrigin: {
+          horizontal: "right",
+          vertical: "top",
+        },
+      });
+      if (success) router.push("/auth/login");
     },
     validationSchema: SignUpSchema,
   });

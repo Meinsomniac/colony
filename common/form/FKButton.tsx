@@ -5,26 +5,24 @@ import { ButtonHTMLAttributes, forwardRef } from "react";
 
 type FKButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: any;
-  customClassName?: string;
   className?: string;
   variant?: "contained" | "filled" | "border";
 };
 
 const FKButton = forwardRef(
   (
-    { children, customClassName, className = "", ...rest }: FKButtonProps,
+    { children, className = "", ...rest }: FKButtonProps,
     ref: React.Ref<HTMLButtonElement>
   ) => {
     return (
       <div className="w-full">
         <button
           {...rest}
+          ref={ref}
           className={clsx(
-            customClassName
-              ? customClassName
-              : `w-full bg-blue-600 text-white hover:bg-blue-500 cursor-pointer rounded-sm p-2 shadow-sm`.concat(
-                  className
-                )
+            "w-full text-white hover:brightness-95 cursor-pointer rounded-sm p-2 shadow-sm",
+            "bg-blue-600",
+            className
           )}
         >
           {children}

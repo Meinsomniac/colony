@@ -20,7 +20,11 @@ export const authSlice = createSlice({
     updateUserInfo: (state, { payload }) => {
       state.userInfo = payload;
     },
+    resetUserInfo: (state, action) => {
+      state = initialState;
+    },
   },
 });
 
-export const { updateIsAuthenticated, updateUserInfo } = authSlice.actions;
+export const { updateIsAuthenticated, updateUserInfo, resetUserInfo } =
+  authSlice.actions;
