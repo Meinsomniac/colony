@@ -10,6 +10,7 @@ import { useLoginMutation } from "../../../../redux/auth/authActions";
 import { enqueueSnackbar } from "notistack";
 import { setCookie } from "../../../../utils/cookie";
 import { useAuth } from "../../../../contexts/AuthContext";
+import GoogleLoginButton from "../(components)/GoogleLoginButton";
 
 const LoginSchema = yup.object().shape({
   username: yup.string().required("Username/email is required"),
@@ -66,6 +67,7 @@ export default function Login() {
               type="password"
             />
             <FKButton type="submit">Login</FKButton>
+            <GoogleLoginButton />
           </div>
         </Form>
       </FormikProvider>
